@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- AOS (Animate on Scroll) Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  // Initialize AOS on document load
+  document.addEventListener('DOMContentLoaded', function() {
+    AOS.init({
+      duration: 800, // animation duration
+      once: true,    // whether animation should happen only once - while scrolling down
+    });
+  });
+</script>
+<style>
+  :root {
+    --dark-bg: rgb(13, 17, 23); /* GitHub Dark Background */
+    --card-bg: rgb(22, 27, 34); /* GitHub Dark Card Background */
+    --border-color: rgba(139, 148, 158, 0.3); /* Subtle border */
+    --primary-text: rgb(240, 246, 252);
+    --secondary-text: rgb(159, 167, 176);
+    --accent-color: #8250df;
+    --accent-hover: #956ae6;
+  }
+
+  body {
+    background-color: var(--dark-bg);
+    color: var(--primary-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .section-title {
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--primary-text);
+  }
+
+  .card-custom {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-custom:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(130, 80, 223, 0.15);
+  }
+  
+  .feature-card {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .feature-card:hover {
+    background-color: var(--card-bg);
+  }
+
+  .btn-accent {
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-accent:hover {
+    background-color: var(--accent-hover);
+    color: white;
+  }
+
+  .btn-outline-accent {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .btn-outline-accent:hover {
+      background-color: var(--accent-color);
+      color: white;
+  }
+
+  .text-accent {
+      color: var(--accent-color) !important;
+  }
+
+  /* Accordion (FAQ) Styling */
+  .accordion-item {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+    border-radius: 8px !important; /* Overwrite bootstrap default */
+  }
+
+  .accordion-button {
+    background-color: var(--card-bg);
+    color: var(--primary-text);
+    font-weight: 600;
+    border-radius: 8px !important;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    background-color: var(--card-bg);
+    color: var(--accent-color);
+    box-shadow: none;
+  }
+
+  .accordion-button:focus {
+      box-shadow: 0 0 0 0.25rem rgba(130, 80, 223, 0.25);
+  }
+
+  .accordion-button::after {
+    /* Uses Bootstrap's default SVG icon but we re-color it */
+    filter: invert(1) grayscale(100%) brightness(200%);
+  }
+  
+  .accordion-body {
+    background-color: var(--dark-bg);
+    color: var(--secondary-text);
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+</style>
+
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="text-center my-5" data-aos="fade-down">
+        <h1 class="display-3 fw-bold">
+            <span class="text-accent">FraudShield AI</span>
+        </h1>
+      <b>  <p class="lead text-secondary col-lg-8 mx-auto mt-3">
+            Proactively secure every online transaction with our cutting-edge machine learning engine. Detect and prevent fraud before it impacts you.
+        </p></b>
+    </div>
+
+    {% if not user.is_authenticated %}
+   <!-- Guest Welcome & Features -->
+    <div class="card card-custom text-center mb-5 p-4 p-md-5" data-aos="zoom-in-up">
+        <div class="card-body">
+            <h2 class="mb-3 fw-bold">🔐 Secure Your Digital Ecosystem</h2>
+            <p class="lead text-secondary mb-5">
+                Join the platform to access powerful tools for detecting UPI and card transaction fraud, all powered by an intelligent, self-improving AI model.
+            </p>
+
+            <div class="row justify-content-center text-start g-4 mb-5">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card h-100">
+                        <h5 class="text-accent"><i class="fas fa-chart-line me-2"></i> Real-Time Intelligence</h5>
+                        <p class="small text-secondary">Analyze transaction patterns in real-time to flag suspicious activity instantly, minimizing risk and protecting assets.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card h-100">
+                        <h5 class="text-accent"><i class="fas fa-cogs me-2"></i> Seamless API Integration</h5>
+                        <p class="small text-secondary">Integrate our robust REST API into your applications with just a few lines of code for automated fraud screening.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card h-100">
+                        <h5 class="text-accent"><i class="fas fa-user-shield me-2"></i> Secure & Scalable</h5>
+                        <p class="small text-secondary">Built with security first. Your data is protected through user authentication and secure API key management.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'signup' %}" class="btn btn-accent">Get Started for Free</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-accent">Member Login</a>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- ======================= -->
+    <!-- Logged-In User Dashboard -->
+    <!-- ======================= -->
+
+    <!-- Core Services Section -->
+    <h2 class="section-title text-center" data-aos="fade-up">Your Fraud Detection Toolkit</h2>
+    <div class="row text-center g-4 mb-5">
+        <div class="col-md-4" data-aos="fade-right">
+            <div class="card card-custom h-100 p-4">
+                <i class="fas fa-search-dollar fa-3x text-accent mb-3"></i>
+                <h5 class="fw-bold">Manual Check</h5>
+                <p class="text-secondary">Instantly analyze a single transaction by inputting its details into our prediction form.</p>
+                <a href="{% url 'manual_check' %}" class="btn btn-sm btn-accent mt-auto">Perform a Check</a>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up">
+            <div class="card card-custom h-100 p-4">
+                <i class="fas fa-key fa-3x text-accent mb-3"></i>
+                <h5 class="fw-bold">API Access</h5>
+                <p class="text-secondary">Automate fraud detection in your applications. Get your unique key and view documentation.</p>
+                <a href="{% url 'api_key' %}" class="btn btn-sm btn-accent mt-auto">Manage API Key</a>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-left">
+            <div class="card card-custom h-100 p-4">
+                <i class="fas fa-history fa-3x text-accent mb-3"></i>
+                <h5 class="fw-bold">Prediction History</h5>
+                <p class="text-secondary">Review your past predictions and analyses to identify trends and track platform usage.</p>
+                <a href="#" class="btn btn-sm btn-outline-accent mt-auto disabled">Coming Soon</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why It Matters Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6" data-aos="fade-up-right">
+            <div class="card card-custom h-100 p-4">
+                <h4 class="section-title fs-5"><i class="fas fa-check-circle me-2 text-success"></i> Key Platform Benefits</h4>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-rocket text-accent me-2"></i> Fast & reliable ML-powered predictions.</li>
+                    <li class="mb-2"><i class="fas fa-shield-alt text-accent me-2"></i> Proactively secures digital wallets and payments.</li>
+                    <li class="mb-2"><i class="fas fa-brain text-accent me-2"></i> Utilizes a custom-trained fraud classification model.</li>
+                    <li class="mb-2"><i class="fas fa-code text-accent me-2"></i> Developer-first with easy API integration.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-up-left">
+            <div class="card card-custom h-100 p-4">
+                <h4 class="section-title fs-5"><i class="fas fa-exclamation-triangle me-2 text-danger"></i> The High Cost of Inaction</h4>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-hand-holding-usd text-accent me-2"></i> Substantial and direct financial losses.</li>
+                    <li class="mb-2"><i class="fas fa-thumbs-down text-accent me-2"></i> Erosion of user trust and brand reputation.</li>
+                    <li class="mb-2"><i class="fas fa-user-secret text-accent me-2"></i> Exposure of sensitive customer data.</li>
+                    <li class="mb-2"><i class="fas fa-balance-scale text-accent me-2"></i> Potential legal and compliance penalties.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FAQs Section -->
+    <div class="card card-custom p-4 p-md-5 mb-5" data-aos="fade-up">
+        <h2 class="section-title text-center"><i class="fas fa-question-circle me-2"></i> Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        What kind of Machine Learning model is used?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">We utilize a supervised classification model (like a Gradient Boosting Classifier or Random Forest) trained on a vast, labeled dataset of fraudulent and legitimate transactions to identify complex patterns indicative of fraud.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        How accurate is the prediction?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Our model is trained to achieve high precision and recall, prioritizing the correct identification of fraud while minimizing false positives. The exact accuracy score depends on the dataset but typically exceeds industry standards for similar applications.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Is my data safe when using the API?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Absolutely. All communication with our API is encrypted over HTTPS. Access is gated by a unique, secret API key that you must include in your requests, ensuring only authorized applications can use the service.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ 4: How accurate is the fraud detection model? -->
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+            How accurate is the fraud detection model?
+        </button>
+    </h2>
+    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Our fraud detection engine is powered by a machine learning model trained on real-world financial data. It currently achieves over <strong>99.98% accuracy</strong> on validation sets and is continuously improved with new patterns and behavior.
+        </div>
+    </div>
+</div>
+
+<!-- FAQ 5: What happens if the API key is compromised? -->
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+            What happens if my API key is compromised?
+        </button>
+    </h2>
+    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            If your API key is exposed, we recommend immediately revoking it via your dashboard and generating a new one. Unauthorized access can be tracked and blocked using built-in request logging and rate limits.
+        </div>
+    </div>
+</div>
+
+<!-- FAQ 6: Can I integrate this system into my own website or app? -->
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+            Can I integrate this system into my own website or app?
+        </button>
+    </h2>
+    <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Yes, FraudShield AI offers a flexible API that you can integrate with your website, app, or internal tools. Our API is well-documented and supports JSON payloads, making integration fast and developer-friendly.
+        </div>
+    </div>
+</div>
+
+<!-- FAQ 7: Does the model support international transactions? -->
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+            Does the model support international transactions?
+        </button>
+    </h2>
+    <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            Our model is currently optimized for domestic UPI and card-based transactions. However, we are expanding support for cross-border transaction patterns and international fraud types in upcoming releases.
+        </div>
+    </div>
+</div>
+
+<!-- FAQ 8: How do I get access to the API key? -->
+<div class="accordion-item">
+    <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+            How do I get access to the API key?
+        </button>
+    </h2>
+    <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+            After registering and logging into your account, visit the "API Key" section in your dashboard. You can generate, view, and manage your keys securely from there.
+        </div>
+    </div>
+</div>
+
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: fraud-shield-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn FraudShield_AI.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: FraudShield_AI.settings
+      - key: PYTHON_VERSION
+        value: 3.10

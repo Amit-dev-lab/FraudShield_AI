@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% block title %}API Key{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        color: #f0f0f0;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .card {
+        background-color: #292445;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        margin-bottom: 30px;
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #3a0ca3, #7209b7);
+        color: #fff;
+        padding: 1.5rem 1.25rem;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .form-control {
+    background-color: #1f2235;
+    border: 1px solid #444;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #9d4edd;
+    box-shadow: 0 0 0 3px rgba(157, 78, 221, 0.2);
+    background-color: #262940;
+    color: #fff !important;         /* Ensure white text remains on focus */
+}
+
+
+    .btn-outline-secondary {
+        color: #ccc;
+        border-color: #666;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #9d4edd;
+        color: #fff;
+    }
+
+    pre code {
+        background-color: #1e1e2f;
+        padding: 15px;
+        border-radius: 8px;
+        color: #ddd;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .input-group {
+        box-shadow: 0 0 5px rgba(157, 78, 221, 0.3);
+        border-radius: 8px;
+        
+    }
+
+    label.form-label {
+        color: #ccc;
+        font-weight: 500;
+    }
+
+    small.text-muted {
+        color: #bbb !important;
+    }
+
+    h6 {
+        margin-top: 20px;
+        color: #f4f4f4;
+    }
+
+    code {
+        color: #c9f;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card shadow-lg" data-aos="fade-up">
+            <div class="card-header text-center">
+                <h3><i class="fas fa-key"></i> Your API Key</h3>
+                <p class="mb-0">Use this key to access our fraud detection API securely</p>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <label class="form-label"><strong>API Key:</strong></label>
+                    <div class="input-group">
+                        <input  type="text" class="form-control" value="{{ api_key.key }}" id="apiKey" readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="copyApiKey(event)">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                    </div>
+                    <small class="text-muted">Created: {{ api_key.created_at|date:"M d, Y H:i" }}</small>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5>API Usage Example</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6>🔗 Endpoint:</h6>
+                        <code>POST /api/predict/</code>
+
+                        <h6>📦 Headers:</h6>
+<pre><code>X-API-Key: {{ api_key.key }}
+Content-Type: application/json</code></pre>
+
+                        <h6>📤 Request Body:</h6>
+<pre><code>{
+  "trans_date_trans_time": "2024-01-15T14:30:00",
+  "category": "grocery_pos",
+  "amount_inr": 1500.00,
+  "sender_city": "New York City",
+  "receiver_city": "Los Angeles",
+  "date_of_birth": "1990-05-15",
+  "has_previous_transaction": true,
+  "previous_transaction_date": "2024-01-10T10:00:00"
+}</code></pre>
+
+                        <h6>💻 Python Code Example:</h6>
+<pre><code>import requests
+
+url = "http://your-domain.com/api/predict/"
+headers = {
+    "X-API-Key": "{{ api_key.key }}",
+    "Content-Type": "application/json"
+}
+data = {
+    "trans_date_trans_time": "2024-01-15T14:30:00",
+    "category": "grocery_pos",
+    "amount_inr": 1500.00,
+    "sender_city": "New York City",
+    "receiver_city": "Los Angeles",
+    "date_of_birth": "1990-05-15",
+    "has_previous_transaction": True
+}
+
+response = requests.post(url, json=data, headers=headers)
+result = response.json()
+print(f"Fraud probability: {result['fraud_probability']}")
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyApiKey(event) {
+    const apiKeyInput = document.getElementById('apiKey');
+    apiKeyInput.select();
+    apiKeyInput.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+
+    const button = event.target.closest('button');
+    const originalText = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+    button.classList.remove('btn-outline-secondary');
+    button.classList.add('btn-success');
+
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.classList.remove('btn-success');
+        button.classList.add('btn-outline-secondary');
+    }, 2000);
+}
+</script>
+{% endblock %}

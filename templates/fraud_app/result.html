@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block title %}Fraud Check Result{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #0d1117;
+        color: #e1e1e1;
+    }
+
+    .card {
+        background-color: #161b22;
+        border: 1px solid #2c2f36;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        color: #f0f0f0;
+    }
+
+    .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid #30363d;
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+    .table-sm td {
+        border-top: 1px solid #30363d;
+        color: #d0d0d0;
+    }
+
+    .text-success {
+        color: #4caf50 !important;
+    }
+
+    .text-danger {
+        color: #ef4444 !important;
+    }
+
+    .text-muted {
+        color: #999 !important;
+    }
+
+    .border-success {
+        border: 2px solid #4caf50 !important;
+    }
+
+    .border-danger {
+        border: 2px solid #ef4444 !important;
+    }
+
+    .alert-success {
+        background-color: #1f3b2c;
+        color: #8bc34a;
+        border: none;
+    }
+
+    .alert-danger {
+        background-color: #3f1d1d;
+        color: #ef4444;
+        border: none;
+    }
+
+    .alert-warning {
+        background-color: #4a3f1f;
+        color: #ffb800;
+        border: none;
+    }
+
+    .badge.bg-success {
+        background-color: #4caf50 !important;
+    }
+
+    .badge.bg-danger {
+        background-color: #ef4444 !important;
+    }
+
+    .badge.bg-warning {
+        background-color: #ffc107 !important;
+        color: #000;
+    }
+
+    .btn-primary {
+        background-color: rgb(156, 28, 241);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: rgb(135, 20, 214);
+    }
+
+    .btn-outline-secondary {
+        color: #ccc;
+        border-color: #ccc;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #ccc;
+        color: #000;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-chart-line"></i> Fraud Analysis Result</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Result Summary -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card {% if result.is_fraud %}border-danger{% else %}border-success{% endif %}">
+                            <div class="card-body text-center">
+                                {% if result.is_fraud %}
+                                <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                                <h4 class="text-danger">FRAUD DETECTED</h4>
+                                {% else %}
+                                <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                                <h4 class="text-success">LEGITIMATE TRANSACTION</h4>
+                                {% endif %}
+                                <div class="mt-3">
+                                    <strong>Risk Score</strong><br>
+                                    <span class="h5">{{ result.risk_score|floatformat:1 }}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Details -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6>Transaction Details</h6>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Amount:</strong></td>
+                                        <td>₹{{ form_data.amount_inr|floatformat:2 }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Category:</strong></td>
+                                        <td>{{ form_data.category|title }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>From:</strong></td>
+                                        <td>{{ form_data.sender_city }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>To:</strong></td>
+                                        <td>{{ form_data.receiver_city }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Distance:</strong></td>
+                                        <td>{{ result.features.distance_km|floatformat:1 }} km</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Status:</strong></td>
+                                        <td>
+                                            <span class="badge 
+                                                {% if result.status == 'approved' %}bg-success
+                                                {% elif result.status == 'declined' %}bg-danger
+                                                {% else %}bg-warning{% endif %}">
+                                                {{ result.status|title }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendation -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6>Recommendation</h6>
+                            </div>
+                            <div class="card-body">
+                                {% if result.recommendation == 'approve' %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <strong>APPROVE:</strong> This transaction appears to be legitimate and can be processed.
+                                </div>
+                                {% elif result.recommendation == 'decline' %}
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-ban"></i>
+                                    <strong>DECLINE:</strong> This transaction shows high fraud indicators and should be blocked.
+                                </div>
+                                {% else %}
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-eye"></i>
+                                    <strong>REVIEW:</strong> This transaction requires manual review before processing.
+                                </div>
+                                {% endif %}
+
+                                <small class="text-muted">
+                                    Processing time: {{ result.processing_time|floatformat:0 }}ms |
+                                    Transaction ID: #{{ transaction.id }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="text-center mt-4">
+                    <a href="{% url 'manual_check' %}" class="btn btn-primary me-2">Check Another Transaction</a>
+                    <a href="{% url 'history' %}" class="btn btn-outline-secondary">View History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
