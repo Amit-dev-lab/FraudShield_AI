@@ -77,7 +77,7 @@ Import fraudshield_api.postman_collection.json
 -/api/manual-check/
 /-api/transactions/
 
-🙌 Acknowledgements
+🙌 #Acknowledgements
 -Developed at Central India Hackathon 2025
 -Organized by Suryodaya College of Engineering and Technology, Nagpur
 -Selected as Top 50 team among 800+ participants
@@ -86,8 +86,8 @@ Import fraudshield_api.postman_collection.json
 📄 License
 This project is licensed under the MIT License.
 
-📬 Connect with Us
-LinkedIn – https://www.linkedin.com/in/amit-bangde-4a5499259/
+📬#Connect with Us
+LinkedIn – https://www.linkedin.com/in/amit-bangde-4a5499259/ 
 For inquiries or demo requests, feel free to connect!
 Mobile :- 8856023298
 Email: bangdeamit538@gmail.com
