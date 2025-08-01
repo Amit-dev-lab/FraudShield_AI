@@ -24,7 +24,7 @@ FraudShield AI is a real-time fraud detection web application designed to safegu
 
 | Team Member    | Contribution                              |
 |----------------|-------------------------------------------|
-| Amit Bangde    | Frontend, API Integratio, Deployment ,Postman Testing |
+| Amit Bangde    | Frontend, Deployment ,Postman Testing |
 | Jayendrajeet Chauhan| ML, feature engineering, and training  |
 | Mohammed Tailor   | Backend, Django REST API integration      |
 | Jagdish Jadhav     | Tailwind UI and design     |
