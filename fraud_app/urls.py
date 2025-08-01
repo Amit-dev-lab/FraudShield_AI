@@ -1,6 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import ping_view 
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -10,4 +11,5 @@ urlpatterns = [
     path('manual-check/', views.manual_check, name='manual_check'),
     path('api-key/', views.api_key_view, name='api_key'),
     path('history/', views.transaction_history, name='history'),
+    path("ping/", ping_view),
 ]
