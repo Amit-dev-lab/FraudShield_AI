@@ -8,9 +8,6 @@ from .models import APIKey, FraudTransaction
 from .ml_utils import predict_fraud
 import time
 from django.http import HttpResponse
-
-def ping_view(request):
-    return HttpResponse("OK")
     
 def home(request):
     """Home page view"""
@@ -103,3 +100,6 @@ def transaction_history(request):
     """Display user's transaction history"""
     transactions = FraudTransaction.objects.filter(created_by=request.user).order_by('-created_at')
     return render(request, 'fraud_app/history.html', {'transactions': transactions})
+
+def ping_view(request):
+    return HttpResponse("OK")
