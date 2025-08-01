@@ -7,7 +7,11 @@ from .forms import CustomUserCreationForm, FraudCheckForm
 from .models import APIKey, FraudTransaction
 from .ml_utils import predict_fraud
 import time
+from django.http import HttpResponse
 
+def ping_view(request):
+    return HttpResponse("OK")
+    
 def home(request):
     """Home page view"""
     return render(request, 'fraud_app/home.html')
